@@ -70,7 +70,7 @@
 // end of jyql_module
 
 // controller_module
-console.log("The very beginning of the controller_module");
+
 
 var q = "select * from html where url='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Methods_Index' and xpath='//article[@id=\"wikiArticle\"]//ul'";
 
@@ -85,13 +85,13 @@ function isEmptyObject(obj) {
 
 var fetch = new Promise(function(resolve,reject){
    jyql(q, function (err, data){
-  console.log("error to: ", err);
+//  console.log("error to: ", err);
     var downloaded = data.query.results.ul;
 
     var obj_filtered_dict =[];
     for(var i=0; i<downloaded.length;i++){  //iterates on downloaded array => ARRAY OF ARRAY CONTAIN OBJ.
-     if (downloaded[i] !== null &&  typeof(downloaded[i]) === 'object'){  //abandons empty objects
-      for(var z=0; z<downloaded[i].li.length;z++){ // iterates on one character Array, eg. "A"
+     if (downloaded[i] !== null &&  typeof(downloaded[i]) === 'object'){
+      for(var z=0; z<downloaded[i].li.length;z++){
         if(!isEmptyObject(downloaded[i].li[z])){
           obj_filtered_dict.push(downloaded[i].li[z]);
         }
@@ -101,7 +101,7 @@ var fetch = new Promise(function(resolve,reject){
       }
     }
     if(obj_filtered_dict.length > 0){
-      console.log("obj_filtered_dict przed wysłaniem promisa", obj_filtered_dict);
+
       resolve(obj_filtered_dict);
     }else{
       reject("There was an error during download content from developer.mozilla.org website.");
@@ -134,13 +134,13 @@ for(var g =0; g<filtered.length;g++){
       }
 
       if(filtered[g].code && filtered[g].strong){
-        if(filtered[g].strong.length === undefined){ // jesli nie jest tablica i stringiem = object
+        if(filtered[g].strong.length === undefined){
             invoke.push(filtered[g].strong.code);
         }else if(!filtered[g].strong.length===undefined && typeof(filtered[g].strong) === 'object'){
-            invoke.push(filtered[g].strong[0].code);  //jesli nie jest obiektem i stringiem = array
+            invoke.push(filtered[g].strong[0].code);
           }
         else{
-            invoke.push(filtered[g].strong);     //jesli jest stringiem
+            invoke.push(filtered[g].strong);
         }
       }else if(filtered[g].code && !filtered[g].strong){
         if(filtered[g].code.length>= 0){
@@ -173,20 +173,6 @@ for(var g =0; g<filtered.length;g++){
     var ind = desc[p].indexOf(":");
     desc[p] = desc[p].slice(ind);
   }
-  console.log("Usunięto " + counter + " elementów");
-  console.log("Po przefiltrowaniu: ", filtered.length);
-//  console.log(filtered);
-
-console.log("link.length", link.length);
-console.log("invoke.length", invoke.length);
-console.log("name.length", name.length);
-console.log("desc.length", desc.length);
-
- console.log("link", link);
- console.log("name", name);
- console.log("desc", desc);
- console.log("invoke", invoke);
-
 
    function finish_filter (destiny){
      var amount = 1,
@@ -208,7 +194,7 @@ console.log("desc.length", desc.length);
            return {Table: finished, id: random_number};
        }
        else {
-           console.log("Else in finish_filter function");
+           console.log(".");
        }
  }
  var last_performance = finish_filter(name);
@@ -221,7 +207,6 @@ console.log("desc.length", desc.length);
    result_description: desc[result_index]
  };
 
- console.log("display_data", display_data);
  // end of end up filter functions
  var main_div = document.createElement('div');
  main_div.id = 'main_div';
