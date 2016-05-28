@@ -71,9 +71,12 @@
 
 // controller_module
 
+var md = document.getElementById('main_div');
+name_div.innerHTML = "status: " + "Connecting to developer.mozilla.org";
+invoke_div.innerHTML = "progress: " + "[22%]";
 
 var q = "select * from html where url='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Methods_Index' and xpath='//article[@id=\"wikiArticle\"]//ul'";
-
+invoke_div.innerHTML = "progress: " + "[28%]";
 function isEmptyObject(obj) {
   for(var prop in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, prop)) {
@@ -85,9 +88,16 @@ function isEmptyObject(obj) {
 
 var fetch = new Promise(function(resolve,reject){
    jyql(q, function (err, data){
-//  console.log("error to: ", err);
+     if(err){
+        md.style.border="2px dashed red";
+        name_div.style.color = "darkred";
+        invoke_div.style.color = "darkred";
+        name_div.innerHTML = "status: " + "External server cannot be reached";
+        invoke_div.innerHTML = "progress: " + "[0%]";
+      }
     var downloaded = data.query.results.ul;
-
+    name_div.innerHTML = "status: " + "Connected 2/2";
+    invoke_div.innerHTML = "progress: " + "[45%]";
     var obj_filtered_dict =[];
     for(var i=0; i<downloaded.length;i++){  //iterates on downloaded array => ARRAY OF ARRAY CONTAIN OBJ.
      if (downloaded[i] !== null &&  typeof(downloaded[i]) === 'object'){
@@ -109,7 +119,7 @@ var fetch = new Promise(function(resolve,reject){
   });
 });
 fetch.then(function(filtered){
-
+invoke_div.innerHTML = "progress: " + "[58%]";
 var link =[], name =[], desc =[], invoke =[];
 var counter = 0;
 for(var g =0; g<filtered.length;g++){
@@ -198,6 +208,7 @@ for(var g =0; g<filtered.length;g++){
        }
  }
  var last_performance = finish_filter(name);
+ invoke_div.innerHTML = "progress: " + "[95%]";
  var result_index = last_performance.id;
 
  var display_data = {
@@ -208,36 +219,29 @@ for(var g =0; g<filtered.length;g++){
  };
 
  // end of end up filter functions
- var main_div = document.createElement('div');
- main_div.id = 'main_div';
- main_div.className='main_div';
- document.getElementsByTagName('body')[0].appendChild(main_div);
- var md = document.getElementById('main_div');
- md.style.position ='fixed';
- md.style.left='32.5%';
- md.style.top='4%';
+
  md.style.border="2px solid darkgray";
- md.style.width = "35%";
- md.style.height = "100px";
- md.style.maxHeight = "130px";
- md.style.borderRadius ="15px 15px";
- md.style.padding ="15px";
- md.style.overflow="auto";
- var name_div = document.createElement('div');
- name_div.innerHTML = "name: " + display_data.result_name ;
- md.appendChild(name_div);
- var invoke_div = document.createElement('div');
- invoke_div.innerHTML = "invoke: " + display_data.result_invoke;
- md.appendChild(invoke_div);
+
+ name_div.style.color = "black";
+ name_div.innerHTML = "<span style='color:darkgray;'>name: </span>" + display_data.result_name ;
+
+ invoke_div.style.color = "black";
+ invoke_div.innerHTML = "<span style='color:darkgray;'>invoking: </span>" + display_data.result_invoke;
  var link_div = document.createElement('div');
- link_div.innerHTML = "link: " + '<a href="display_data.result_link">'+display_data.result_name+'</a>';
+ link_div.style.padding = "3px";
+ link_div.innerHTML = "<span style='color:darkgray;'>link: </span>" + '<a href="display_data.result_link">'+display_data.result_name+'</a>';
  md.appendChild(link_div);
  var desc_div = document.createElement('div');
- desc_div.innerHTML ="description " + display_data.result_description;
+ desc_div.style.padding = "3px";
+ desc_div.innerHTML ="<span style='color:darkgray;'>description </span>" + display_data.result_description;
  md.appendChild(desc_div);
 
 
 }).catch(function(reason){
-console.log(reason);
+  md.style.border="2px dashed red";
+  name_div.style.color = "darkred";
+  invoke_div.style.color = "darkred";
+  name_div.innerHTML = "status: " + reason;
+  invoke_div.innerHTML = "progress: " + "[0%]";
 }
 );
