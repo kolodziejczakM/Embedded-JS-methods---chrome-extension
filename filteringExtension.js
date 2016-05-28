@@ -229,7 +229,7 @@ for(var g =0; g<filtered.length;g++){
  invoke_div.innerHTML = "<span style='color:darkgray;'>invoking: </span>" + display_data.result_invoke;
  var link_div = document.createElement('div');
  link_div.style.padding = "3px";
- link_div.innerHTML = "<span style='color:darkgray;'>link: </span>" + '<a href="display_data.result_link">'+display_data.result_name+'</a>';
+ link_div.innerHTML = "<span style='color:darkgray;'>link: </span>" + '<a href="'+display_data.result_link+'">'+display_data.result_name+'</a>';
  md.appendChild(link_div);
  var desc_div = document.createElement('div');
  desc_div.style.padding = "3px";
