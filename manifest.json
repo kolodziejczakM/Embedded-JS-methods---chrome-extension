@@ -1,6 +1,6 @@
 {
   "name": "Embedded JS methods",
-  "version": "1.01",
+  "version": "1.31",
   "manifest_version": 2,
   "browser_action": {
     "default_title": "Learn JS method on google.com",
@@ -75,7 +75,8 @@
       "https://www.google.br/?gws_rd=ssl",
       "https://www.google.br/",
       "https://www.google.br/?gfe_rd=cr&ei=*"
-    ]
+    ],
+    "exclude_globs": ["*q=*"]
   }],
   "permissions": [
     "http://*/",
